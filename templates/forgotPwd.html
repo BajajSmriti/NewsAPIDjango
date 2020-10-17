@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Blogs & News</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+
+            <!-- Forgot password Form -->
+            <form action="forgotPwd" method="post">
+                {% csrf_token %}
+                <label>
+                    <h3>Reset password</h3>
+                </label>
+                <input type="email" class="fadeIn second" name="email_id" placeholder="Email Id" required>
+                <input type="password" class="fadeIn third" name="password" placeholder="New password" required>
+                <input type="password" class="fadeIn third" name="retypePassword" placeholder="Retype password"
+                    required>
+                <input type="submit" class="fadeIn fourth" value="Reset password">
+            </form>
+
+            <div>
+                {% for message in messages%}
+                <label style="color:red;">{{message}}</label>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
