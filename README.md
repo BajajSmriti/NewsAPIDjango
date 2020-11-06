@@ -7,3 +7,5 @@
 3. Logging in with a profile.
 4. Registering a profile.
 5. Viewing users profile fields.
+
+Hosted on heroku - http://blogsandnews.herokuapp.com/
