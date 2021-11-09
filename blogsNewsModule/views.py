@@ -21,6 +21,7 @@ load_dotenv()
 def newsView(request):
     """Requests data from newsapi"""
     newsapi = NewsApiClient(api_key=os.getenv("API_KEY"))
+    print(newsapi)
     topheadlines = newsapi.get_top_headlines(sources='techcrunch')
 
     articles = topheadlines['articles']
@@ -58,7 +59,6 @@ def subscribeView(request):
 
         subject = "Blogs & News"
         body = os.getenv('BODY')
-        print("&&&&", body)
         message = 'Subject: {}\n\n{}'.format(subject, body)
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
             server.login(SENDER_EMAIL, SENDER_PASSWORD)
