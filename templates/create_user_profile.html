@@ -39,11 +39,11 @@
 		<aside id="colorlib-aside" role="complementary" class="js-fullheight">
 			<nav id="colorlib-main-menu" role="navigation">
 				<ul>
-					<li><a href="/">Home</a></li>
+					<li><a href="home">Home</a></li>
 					<li class="colorlib-active"><a href="createBlog">Create a blog</a></li>
 					<li><a href="myBlogs">Blogs</a></li>
 					<li><a href="about">About</a></li>
-					<li><a href="/registration/edit_profile">Edit profile</a></li>
+					<li><a href="/edit_profile">Edit profile</a></li>
 					<li><a href="/registration/login">Log out</a></li>
 				</ul>
 			</nav>
@@ -69,10 +69,10 @@
 						<div class="col-md-12">
 							<div class="blog-entry ftco-animate d-md-flex">
 								<div id="formContent" class="fadeIn second">
-									<form action="createBlog" method="post">
+									<form action="create_user_profile" method="post" enctype="multipart/form-data">
 										{% csrf_token %}
 										<label>
-											<h3>Happy Blogging!</h3>
+											<h3>Create Profile</h3>
 										</label><br>
 										{{form.as_p}}
 										<!-- <input type="text" class="fadeIn second" name="title" placeholder="Title"
@@ -111,10 +111,6 @@
 
 		{% endif %}
 	</div><!-- END COLORLIB-MAIN -->
-    <script>
-		var id = "{{user.id}}"
-		document.getElementById("updateAuthor").value = id;
-	</script>
 	<!-- loader -->
 	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
 			<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />

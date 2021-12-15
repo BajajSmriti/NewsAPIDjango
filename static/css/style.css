@@ -168,6 +168,10 @@ img {
   vertical-align: middle;
   border-style: none; }
 
+.img-thumbnail{
+  width:20%;
+}
+
 svg {
   overflow: hidden;
   vertical-align: middle; }

@@ -28,7 +28,13 @@
 
             <div>
                 {% for message in messages%}
-                <label style="color:red;">{{message}}</label>
+                {%if message.tags%}
+                {%if message.tags == "warning" %}
+                <label class="fadeIn second" style="color:rgb(240, 90, 90);">{{message}}</label>
+                {%else%}
+                <label class="fadeIn second" style="color:rgb(119, 202, 68);">{{message}}</label>
+                {%endif%}
+                {%endif%}
                 {% endfor %}
             </div>
 

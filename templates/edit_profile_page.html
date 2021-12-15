@@ -35,22 +35,18 @@
 <body>
 
     <div id="colorlib-page">
+        {% if user.is_authenticated %}
+        {% if user.id == profile.user.id %}
         <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
         <aside id="colorlib-aside" role="complementary" class="js-fullheight">
             <nav id="colorlib-main-menu" role="navigation">
                 <ul>
-                    {% if user.is_authenticated %}
-					<li><a href="/">Home</a></li>
-					<li><a href="createBlog">Create a blog</a></li>
-					<li><a href="myBlogs">Blogs</a></li>
-					<li><a href="about">About</a></li>
-					<li><a href="/registration/edit_profile">Edit profile</a></li>
-					<li><a href="/registration/login">Log out</a></li>
-					{% else %}
-					<li><a href="/">Home</a></li>
-					<li><a href="about">About</a></li>
-					<li><a href="/registration/login">Login</a></li>
-					{% endif %}
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/createBlog">Create a blog</a></li>
+                    <li><a href="/myBlogs">Blogs</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/registration/edit_profile">Edit profile</a></li>
+                    <li><a href="/registration/login">Log out</a></li>
                 </ul>
             </nav>
 
@@ -73,25 +69,55 @@
                 <div class="container">
                     <div class="row d-flex">
                         <div class="col-xl-8 py-5 px-md-5">
-                            <div class="row pt-md-4">
-                                <h3 style="text-align: center   ;">Check your inbox for mails from "Blogs & News"
-                                    subsidiary Urban jungle.<br>
-                                    Thank you for trusting us!<br>
-                                    <i class="icon-heart" aria-hidden="true"></i><i class="icon-heart"
-                                        aria-hidden="true"></i>
-                                    <i class="icon-heart" aria-hidden="true"></i><i class="icon-heart"
-                                        aria-hidden="true"></i>
-                                    <i class="icon-heart" aria-hidden="true"></i><i class="icon-heart"
-                                        aria-hidden="true"></i></h3>
-                            </div><!-- END-->
+
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <label>
+                                    <h3>Edit Profile Page</h3>
+                                </label>
+                                <div id="formContent">
+                                    {%if user.profile.profile_pic%}
+                                    <img class="rounded-circle img-thumbnail"
+                                        src={{user.profile.profile_pic.url}}></img>
+                                    {%endif%}
+                                    {% for message in messages%}
+                                    {%if message.tags%}
+                                    {%if message.tags == "warning" %}
+                                    <label class="fadeIn second" style="color:rgb(240, 90, 90);">{{message}}</label>
+                                    {%else%}
+                                    <label class="fadeIn second" style="color:rgb(119, 202, 68);">{{message}}</label>
+                                    {%endif%}
+                                    {%endif%}
+                                    {% endfor %}
+
+                                    {{form.as_p}}
+                                    <input type="submit" class="fadeIn fourth" value="Update profile">
+                                </div>
+                            </form>
+
+
                         </div>
                         <div class="col-xl-4 sidebar ftco-animate bg-light pt-5">
 
-                            {% if user.is_authenticated %}
-							<div class="sidebar-box ftco-animate">
-								<h3 class="sidebar-heading">Hi, {{user.first_name}}!</h3>
-							</div>
-							{%endif%}
+                            <div class="sidebar-box ftco-animate">
+                                <h3 class="sidebar-heading">Hi, {{user.first_name}}!</h3>
+                            </div>
+
+                            <div class="sidebar-box subs-wrap img py-4"
+                                style="background-image: url('{% static 'images/bg_1.jpg' %}');">
+                                <div class="overlay"></div>
+                                <h3 class="mb-4 sidebar-heading"><b>Newsletter</b></h3>
+                                <p class="mb-4">Promise, we wouldn't spam your mailbox.
+                                </p>
+                                <form action="subscribe" class="subscribe-form" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" name="emailId"
+                                            placeholder="Email Address">
+                                        <button class="btn btn-white">Submit </button>
+                                    </div>
+                                </form>
+                            </div>
 
                             <div class="sidebar-box ftco-animate">
                                 <h3 class="sidebar-heading"><b>Daily Quote</b></h3>
@@ -111,13 +137,29 @@
                 </div>
             </section>
         </div><!-- END COLORLIB-MAIN -->
+        {% else %}
+        <br><br>
+        <div style="text-align: center;">
+            <h3> You are not authorized to edit this.</h3>
+        </div>
+        {% endif %}
+        {% else %}
+        <br><br>
+        <div style="text-align: center;">
+            <h3> Oops! You haven't signed in.</h3>
+            <br>
+            <a href="/registration/login">Take me to the Sign in page.</a>
+        </div>
+
+        {% endif %}
     </div><!-- END COLORLIB-PAGE -->
 
     <!-- loader -->
     <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
             <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
             <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-                stroke="#F96D00" /></svg></div>
+                stroke="#F96D00" />
+        </svg></div>
 
 
     <script src="{% static 'js/jquery.min.js' %}"></script>

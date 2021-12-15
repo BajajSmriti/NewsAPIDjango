@@ -35,16 +35,23 @@
 <body>
 
   <div id="colorlib-page">
-    {% if user.is_authenticated %}
+
     <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
     <aside id="colorlib-aside" role="complementary" class="js-fullheight">
       <nav id="colorlib-main-menu" role="navigation">
         <ul>
-          <li><a href="home">Home</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="/">Home</a></li>
           <li><a href="createBlog">Create a blog</a></li>
           <li><a href="myBlogs">Blogs</a></li>
           <li class="colorlib-active"><a href="about">About</a></li>
-          <li><a href="/">Log out</a></li>
+          <li><a href="/registration/edit_profile">Edit profile</a></li>
+          <li><a href="/registration/login">Log out</a></li>
+          {% else %}
+          <li><a href="/">Home</a></li>
+          <li class="colorlib-active"><a href="about">About</a></li>
+          <li><a href="/registration/login">Login</a></li>
+          {% endif %}
         </ul>
       </nav>
 
@@ -73,7 +80,7 @@
             </div>
             <div class="col-md-6 d-flex align-items-center">
               <div class="text px-4 pt-5 pt-md-0 px-md-4 pr-md-5 ftco-animate">
-                <h2 class="mb-4">I'm <span>Smriti Bajaj</span> a creator &amp; a blogger of this website.</h2>
+                <h2 class="mb-4">We’d love to become your <span>home</span> on the web.</h2>
                 <p>At Blogs & News, our mission is to democratize publishing one website at a time.
                   Open source Blogs & News is the most popular online publishing platform, currently powering more than
                   a third of the web. We wanted to bring the Blogs & News experience to an even larger audience, so in
@@ -84,21 +91,13 @@
                   If you’re a current user, thanks for choosing us — we love having you around. If you’re
                   looking to build your online presence and haven’t decided where to drop anchor, give us a try. We’d
                   love to become your home on the web.</p>
+                  <p class="mb-4">Creators: <span class="text-primary">Smriti Bajaj</span> &amp; <span class="text-primary">Aditya Kekare</span></p>
               </div>
             </div>
           </div>
         </div>
       </section>
     </div><!-- END COLORLIB-MAIN -->
-    {% else %}
-    <br><br>
-    <div style="text-align: center;">
-      <h3> Oops! You haven't signed in.</h3>
-      <br>
-      <a href="/">Take me to the Sign in page.</a>
-    </div>
-
-    {% endif %}
   </div><!-- END COLORLIB-PAGE -->
 
   <!-- loader -->
@@ -120,9 +119,6 @@
   <script src="{% static 'js/aos.js' %}"></script>
   <script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
   <script src="{% static 'js/scrollax.min.js' %}"></script>
-  <script
-    src="{% static 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false' %}"></script>
-  <script src="{% static 'js/google-map.js' %}"></script>
   <script src="{% static 'js/main.js' %}"></script>
 
 </body>

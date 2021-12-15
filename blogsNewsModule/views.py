@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.http.response import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
 from datetime import datetime
+from django.urls.base import reverse
 from newsapi import NewsApiClient
 from django import forms
 # from .models import Image
@@ -21,7 +23,6 @@ load_dotenv()
 def newsView(request):
     """Requests data from newsapi"""
     newsapi = NewsApiClient(api_key=os.getenv("API_KEY"))
-    print(newsapi)
     topheadlines = newsapi.get_top_headlines(sources='techcrunch')
 
     articles = topheadlines['articles']
@@ -31,6 +32,28 @@ def newsView(request):
     img = []
     date = []
     redirectURL =[]
+    def_string=""
+
+    if request.method == "POST":
+        search = request.POST["search"]
+        for i in range(len(articles)):
+            myarticles = articles[i]
+            if search.lower() in myarticles['title'].lower():
+                news.append(myarticles['title'])
+                desc.append(myarticles['description'])
+                img.append(myarticles['urlToImage'])
+                redirectURL.append(myarticles['url'])
+                date.append(datetime.strftime(datetime.strptime(myarticles['publishedAt'],"%Y-%m-%dT%H:%M:%SZ"),"%b %d, %Y"))
+            
+            
+            
+        if news==[]:
+            def_string = "Oops! Looks like your search has hit a dead end."
+            return render(request, 'index.html', context={"def_string":def_string})
+
+        mylist = zip(news, desc, img, date, redirectURL)
+
+        return render(request, 'index.html', context={"search":mylist})
 
     for i in range(len(articles)):
         myarticles = articles[i]
@@ -42,6 +65,7 @@ def newsView(request):
         date.append(datetime.strftime(datetime.strptime(myarticles['publishedAt'],"%Y-%m-%dT%H:%M:%SZ"),"%b %d, %Y"))
 
     mylist = zip(news, desc, img, date, redirectURL)
+
 
     return render(request, 'index.html', context={"mylist":mylist})
 
@@ -66,6 +90,18 @@ def subscribeView(request):
 
     return render(request, 'newsletter.html')
 
+def LikeView(request, pk):
+    """Like a blog"""
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+    return redirect('single', post.pk)
+
 class PostListView(generic.ListView):
     """Lists all the blogs"""
     model = Post
@@ -76,18 +112,36 @@ class PostDetailView(generic.DetailView):
     model = Post
     template_name = 'single.html'
 
+    def get_context_data(self,**kwargs):
+        context = super(PostDetailView, self).get_context_data(**kwargs)
+        likes_cnt = get_object_or_404(Post, id=self.kwargs['pk'])
+        total_likes = likes_cnt.total_likes()
+
+        liked = False
+        if likes_cnt.likes.filter(id=self.request.user.id).exists():
+            liked = True
+        
+        context["total_likes"] = total_likes
+        context["liked"] = liked
+
+        return context
+
 class CreateBlogView(generic.CreateView):
     """Create a blogs"""
     model = Post
     template_name = 'create.html'
     #fields = '__all__'
     form_class = PostForm
+    success_url = reverse_lazy('myBlogs')
 
 class UpdateBlogView(generic.UpdateView):
     """Edit a blog"""
     model = Post
     template_name = 'edit.html'
     form_class = PostForm
+    def get_success_url(self):
+        return reverse('single', kwargs={'pk': self.kwargs['pk']})
+
 
 class DeleteBlogView(generic.DeleteView):
     """Delete a blog"""

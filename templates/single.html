@@ -40,16 +40,17 @@
 		<aside id="colorlib-aside" role="complementary" class="js-fullheight">
 			<nav id="colorlib-main-menu" role="navigation">
 				<ul>
-					<li><a href="/news/home">Home</a></li>
-					<li><a href="/news/createBlog">Create a blog</a></li>
-					<li><a href="/news/myBlogs">Blogs</a></li>
-					<li><a href="/news/about">About</a></li>
-					<li><a href="/">Log out</a></li>
+					<li><a href="/">Home</a></li>
+					<li><a href="/createBlog">Create a blog</a></li>
+					<li><a href="/myBlogs">Blogs</a></li>
+					<li><a href="/about">About</a></li>
+					<li><a href="/registration/edit_profile">Edit profile</a></li>
+					<li><a href="/registration/login">Log out</a></li>
 				</ul>
 			</nav>
 
 			<div class="colorlib-footer">
-				<h1 id="colorlib-logo" class="mb-4"><a href="/news/home"
+				<h1 id="colorlib-logo" class="mb-4"><a href="/"
 						style="background-image: url('{% static 'images/bg_1.jpg' %}');">Blogs <span
 							style="text-align: center;">&</span><span>News</span></a></h1>
 				<p class="pfooter">
@@ -85,6 +86,47 @@
 										</p>
 									</div>
 									<p>{{post.content}}</p>
+									<hr>
+									<form action="{% url 'like_post' post.pk %}" method="post">
+										{%csrf_token%}
+										{% if liked %}
+										<button class="btn btn-warning pr-1" name="post_id" value="{{post.id}}"><span><i
+											class="icon-thumbs-down mr-2"></i></span></button>&nbsp;{{total_likes}} likes
+										
+										{%else%}
+										<button class="btn btn-primary pr-1" name="post_id" value="{{post.id}}"><span><i
+											class="icon-thumbs-up mr-2"></i></span></button>&nbsp;{{total_likes}} likes
+										
+										{%endif%}
+									</form>
+									<hr>
+									{%if post.author.profile%}
+									<div class="card mb-3">
+										<div class="row no-gutters">
+											<div>
+												{%if post.author.profile.profile_pic %}
+												<img class="img-responsive rounded"
+													src={{post.author.profile.profile_pic.url}} alt="profile-pic"
+													width=100 height=110em></img>
+												{%else%}
+												<img class="img-responsive rounded"
+													src="{% static 'images/def_pic.png' %}" alt="profile-pic" width=100%
+													height=100%></img>
+												{%endif%}
+											</div>
+											<div class="col-md-10 card-body">
+												<h5 class="text-left card-title">
+													<a href="{% url 'user_profile' post.author.profile.pk %}">
+														{{post.author.first_name}}
+														{{post.author.last_name}}</a>
+												</h5>
+												<p class="text-left card-text">
+													{{post.author.profile.bio}}
+												</p>
+											</div>
+										</div>
+									</div>
+									{%endif%}
 								</div>
 
 							</div>
@@ -100,7 +142,8 @@
 								<form action="subscribe" class="subscribe-form" method="post">
 									{% csrf_token %}
 									<div class="form-group">
-										<input type="email" class="form-control" name="emailId" placeholder="Email Address">
+										<input type="email" class="form-control" name="emailId"
+											placeholder="Email Address">
 										<button class="btn btn-white">Submit </button>
 									</div>
 								</form>
@@ -129,7 +172,7 @@
 		<div style="text-align: center;">
 			<h3> Oops! You haven't signed in.</h3>
 			<br>
-			<a href="/">Take me to the Sign in page.</a>
+			<a href="/registration/login">Take me to the Sign in page.</a>
 		</div>
 
 		{% endif %}
@@ -141,7 +184,8 @@
 	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
 			<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
 			<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-				stroke="#F96D00" /></svg></div>
+				stroke="#F96D00" />
+		</svg></div>
 
 
 	<script src="{% static 'js/jquery.min.js' %}"></script>

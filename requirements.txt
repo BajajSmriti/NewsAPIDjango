@@ -1,18 +1,18 @@
-asgiref==3.4.1
-certifi==2020.12.5
+asgiref @ file:///home/conda/feedstock_root/build_artifacts/asgiref_1625395912402/work
+certifi==2020.6.20
 charset-normalizer==2.0.7
 click==7.1.2
-Django==3.2.9
-djangorestframework==3.12.4
+Django @ file:///home/conda/feedstock_root/build_artifacts/django_1635766369754/work
+djangorestframework @ file:///home/conda/feedstock_root/build_artifacts/djangorestframework_1616757768152/work
 idna==3.3
 newsapi==0.1.1
 newsapi-python==0.2.6
-pip==21.3.1
-python-dotenv==0.19.1
-pytz==2021.3
+olefile==0.46
+Pillow @ file:///C:/ci/pillow_1602785322033/work
+python-dotenv @ file:///home/conda/feedstock_root/build_artifacts/python-dotenv_1633777049699/work
+pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1633452062248/work
 requests==2.26.0
-sqlparse==0.4.2
-typing-extensions==3.10.0.2
+sqlparse @ file:///home/conda/feedstock_root/build_artifacts/sqlparse_1631317292236/work
+typing-extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1632313171031/work
 urllib3==1.26.7
-wheel==0.37.0
 wincertstore==0.2

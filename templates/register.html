@@ -16,19 +16,28 @@
         <div id="formContent">
             <!-- Registration Form -->
             <form action="register" method="post">
-                {% csrf_token %} 
-                <label><h3>Sign up</h3></label>
+                {% csrf_token %}
+                <label>
+                    <h3>Sign up</h3>
+                </label>
                 <input type="text" class="fadeIn second" name="first_name" placeholder="First name" required>
                 <input type="text" class="fadeIn second" name="last_name" placeholder="Last name" required>
                 <input type="email" class="fadeIn second" name="email_id" placeholder="Email Id" required>
                 <input type="password" class="fadeIn third" name="password" placeholder="Password" required>
-                <input type="password" class="fadeIn third" name="retypePassword" placeholder="Retype password" required>
+                <input type="password" class="fadeIn third" name="retypePassword" placeholder="Retype password"
+                    required>
                 <input type="submit" class="fadeIn fourth" value="Submit">
             </form>
 
             <div>
                 {% for message in messages%}
-                <label style="color:red;">{{message}}</label>
+                {%if message.tags%}
+                {%if message.tags == "warning" %}
+                <label class="fadeIn second" style="color:rgb(240, 90, 90);">{{message}}</label>
+                {%else%}
+                <label class="fadeIn second" style="color:rgb(119, 202, 68);">{{message}}</label>
+                {%endif%}
+                {%endif%}
                 {% endfor %}
             </div>
 
