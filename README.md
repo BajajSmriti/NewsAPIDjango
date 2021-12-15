@@ -8,4 +8,4 @@
 4. Registering a profile.
 5. Viewing users profile fields.
 
-Hosted on heroku - http://blogsandnews.herokuapp.com/
+Hosted on heroku - https://blogsandnews.herokuapp.com/
