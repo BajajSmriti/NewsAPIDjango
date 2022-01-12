@@ -7,6 +7,7 @@ from django.views.generic.edit import CreateView
 from blogsNewsModule.models import Profile
 from django.urls import reverse_lazy
 from .forms import ProfileForm
+from django.contrib.auth import logout
 
 # Create your views here.
 
@@ -39,7 +40,6 @@ class EditProfilePageView(UpdateView):
     template_name = 'edit_profile_page.html'
     form_class = ProfileForm
     # success_url = reverse_lazy('news/home')
-
 
 def HomePageView(request):
     """Login manager"""
@@ -110,7 +110,6 @@ def ForgotPwdView(request):
 
     return render(request,'forgotPwd.html')
 
-
 def EditProfileView(request):
     """Edit account"""
     if request.method == "POST":
@@ -139,4 +138,8 @@ def EditProfileView(request):
 
     return render(request,'edit_profile.html')
 
+def logout_user(request):
+    logout(request)
+    messages.success(request, "You were logged out.")
+    return redirect('login')
 

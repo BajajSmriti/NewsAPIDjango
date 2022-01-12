@@ -45,7 +45,7 @@
 					<li><a href="/myBlogs">Blogs</a></li>
 					<li><a href="/about">About</a></li>
 					<li class="colorlib-active"><a href="edit_profile">Edit profile</a></li>
-					<li><a href="/registration/login">Log out</a></li>
+					<li><a href="/registration/logout">Log out</a></li>
 				</ul>
 			</nav>
 
@@ -84,7 +84,7 @@
 									</label>
 									{%else%}
 									<label>
-										Do you want to <a href="/create_user_profile">Create Profile</a> instead?
+										Do you want to <a href="/registration/create_user_profile">Create Profile</a> instead?
 									</label>
 									{%endif%}
 								</div>
@@ -113,7 +113,9 @@
 									{%endif%}
 									{% endfor %}
 									<br />
+									{%if user.profile.pk%}
 									<input type="submit" class="fadeIn fourth" value="Update profile">
+									{%endif%}
 								</div>
 							</form>
 
